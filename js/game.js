@@ -4,14 +4,16 @@ function Game() {
     this.height = canvas.height;
     this.context = canvas.getContext("2d");
     this.context.fillStyle = "white";
+    
     this.keys = new KeyListener();
     
-    this.p1 = new Paddle(5, 0);
+    this.p1 = new Paddle(5, 0,"rgba(255, 0, 0, 1.0)");
     this.p1.y = this.height/2 - this.p1.height/2;
-    this.display1 = new Display(this.width/4, 25);
-    this.p2 = new Paddle(this.width - 5 - 2, 0);
+    this.display1 = new Display(this.width/4, 25,"rgba(255, 0, 0, 1.0)");
+    
+    this.p2 = new Paddle(this.width - 5 - 2, 0,"rgba(0, 255, 0, 1.0)");
     this.p2.y = this.height/2 - this.p2.height/2;
-    this.display2 = new Display(this.width*3/4, 25);
+    this.display2 = new Display(this.width*3/4, 25,"rgba(0, 255, 0, 1.0)");
     
     this.ball = new Ball();
     this.ball.x = this.width/2;
@@ -23,6 +25,10 @@ function Game() {
 Game.prototype.draw = function()
 {
     this.context.clearRect(0, 0, this.width, this.height);
+//    this.context.fillStyle= "rgba(0, 0, 0, 1.0)";    
+//    this.context.fillRect(0, 0, this.width, this.height);
+    
+    this.context.fillStyle = "white";
     this.context.fillRect(this.width/2, 0, 2, this.height);
     
     this.ball.draw(this.context);
@@ -113,16 +119,18 @@ Game.prototype.score = function(p)
 
 
 // PADDLE
-function Paddle(x,y) {
+function Paddle(x,y,color) {
     this.x = x;
     this.y = y;
     this.width = 2;
     this.height = 28;
     this.score = 0;
+    this.color = color;
 }
 
 Paddle.prototype.draw = function(p)
 {
+    p.fillStyle = this.color;
     p.fillRect(this.x, this.y, this.width, this.height);
 };
 
@@ -145,19 +153,23 @@ Ball.prototype.update = function()
  
 Ball.prototype.draw = function(p)
 {
+    p.fillStyle = "white";
     p.fillRect(this.x, this.y, this.width, this.height);
 };
 
 
 //DISPLAY
-function Display(x, y) {
+function Display(x, y,color) {
     this.x = x;
     this.y = y;
     this.value = 0;
+    this.color = color;
 }
  
 Display.prototype.draw = function(p)
 {
+    p.fillStyle = this.color;
+    p.font = 'bold 25px sans-serif';
     p.fillText(this.value, this.x, this.y);
 };
 
