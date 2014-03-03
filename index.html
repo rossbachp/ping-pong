@@ -22,14 +22,20 @@
         
         <canvas id="game" width="512" height="256"></canvas>
 
-        <p>Player Right: Up- and Down-Arrow Keys and leap motion support</p>
-        <p>Player Left: W and S Keys</p>
-
-        <h2>Second Leap for Player Left</h2>
+        <h2>Left Leap for Player Left</h2>
+        <p>Player Left: W and S Keys and leap motion support</p>
         <p>
-            <input type="text" id="left_ip" placeholder="IP for Player Left" value="192.168.178.31"/>
+            <input type="text" id="left_ip" placeholder="IP for Player Left" value="127.0.0.1"/>
             <input type="text" id="left_port" placeholder="Port for Player left" value="6437"/>
             <button type="text" id="connect" onclick="connectLeft()">Connect</button>
+        </p>
+
+        <h2>Right Leap for Player Left</h2>
+        <p>Player Right: Up- and Down-Arrow Keys and leap motion support</p>
+        <p>
+            <input type="text" id="right_ip" placeholder="IP for Player Right" value="192.168.178.31"/>
+            <input type="text" id="right_port" placeholder="Port for Player Right" value="6437"/>
+            <button type="text" id="connect" onclick="connectRight()">Connect</button>
         </p>
 </body>
 
@@ -62,15 +68,15 @@ function connectLeft(){
     }
   });
 
-  controller.on('deviceConnected', function(event){
+  controller.on('streamingStarted', function(event){
     console.log(event);
   });
 }
 
 function connectRight(){
   var controller = new Leap.Controller({
-    host: '127.0.0.1',
-    port: 6437,
+    host: document.getElementById('right_ip').value,
+    port: parseInt(document.getElementById('right_port').value,10),
     enableGestures: true,
     frameEventName: 'animationFrame'
   });
@@ -81,7 +87,7 @@ function connectRight(){
     }
   });
 
-  controller.on('deviceConnected', function(event){
+  controller.on('streamingStarted', function(event){
     console.log(event);
   });
 }
@@ -89,10 +95,7 @@ function connectRight(){
 // Start the game execution
 MainLoop();
 
-// connect first leap device
-connectRight();
-
- </script>
+</script>
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
